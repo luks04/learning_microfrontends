@@ -1,0 +1,29 @@
+import { useAuth } from "@enel/module-utilities";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+export default function Profile() {
+  const { loggedIn } = useAuth();
+
+  return loggedIn ? (
+    <div>
+      <h2>Profile</h2>
+    </div>
+  ) : (
+    <Redirect />
+  );
+}
+
+function Redirect() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    //console.log(token);
+    if (token) {
+      console.log(">>> Token exists");
+    } else {
+      navigate("/users/");
+    }
+  }, []);
+  return <h1>Not auth</h1>;
+}
